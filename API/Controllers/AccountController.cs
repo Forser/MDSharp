@@ -10,14 +10,14 @@ namespace API.Controllers
     {
     }
 
-    [HttpPost("login")]
-    public async Task<ActionResult<UserDto>> login(LoginDto loginDto)
-    {
-      return new UserDto
-      {
-        Username = "",
-        Token = ""
-      };
-    }
+    // [HttpPost("login")]
+    // public async Task<ActionResult<UserDto>> login(LoginDto loginDto)
+    // {
+    //   return new UserDto
+    //   {
+    //     Username = "",
+    //     Token = ""
+    //   };
+    // }
   }
 }
