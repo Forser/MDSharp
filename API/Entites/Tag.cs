@@ -5,6 +5,6 @@ namespace API.Entites
     public class Tag
     {
         public string Id { get; set; }
-        public Dictionary<string, string> Name { get; set; }
+        public IDictionary<string, string> Name { get; set; }
     }
 }

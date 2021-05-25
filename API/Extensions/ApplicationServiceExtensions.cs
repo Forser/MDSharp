@@ -19,6 +19,7 @@ namespace API.Extensions
                 if (env == "Development")
                 {
                     connStr = config.GetConnectionString("DefaultConnection");
+                    options.UseSqlite(connStr);
                 }
             });
 

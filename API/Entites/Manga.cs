@@ -3,24 +3,52 @@ using System.Collections.Generic;
 
 namespace API.Entites
 {
-    public class Manga
-    {
-        public string Id { get; set; }
-        public Dictionary<string, string> Title { get; set; }
-        public Dictionary<string, string> AltTitles { get; set; }
-        public Dictionary<string, string> Description { get; set; }
-        public bool IsLocked { get; set; } = false;
-        public Dictionary<string, string> Links { get; set; }
-        public string OriginalLanguage { get; set; }
-        public string LastVolume { get; set; }
-        public string LastChapter { get; set; }
-        public string PublicationDemographic { get; set; }
-        public string Status { get; set; }
-        public int Year { get; set; } = 0;
-        public string ContentRating { get; set; }
-        public List<string> Tags { get; set; }
-        public int Version { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
-    }
+  public class Manga
+  {
+    public string Id { get; set; }
+    public ICollection<Title> Title { get; set; }
+    public ICollection<AltTitle> AltTitles { get; set; }
+    public ICollection<Description> Description { get; set; }
+    public bool IsLocked { get; set; } = false;
+    public ICollection<Link> Links { get; set; }
+    public string OriginalLanguage { get; set; }
+    public string LastVolume { get; set; }
+    public string LastChapter { get; set; }
+    public string PublicationDemographic { get; set; }
+    public string Status { get; set; }
+    public int Year { get; set; } = 0;
+    public string ContentRating { get; set; }
+    //public ICollection<string> Tags { get; set; }
+    public int Version { get; set; }
+    public DateTime createdAt { get; set; }
+    public DateTime updatedAt { get; set; }
+  }
+
+  public class AltTitle
+  {
+    public int Id { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
+  }
+
+  public class Description
+  {
+    public int Id { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
+  }
+
+  public class Title
+  {
+    public int Id { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
+  }
+
+  public class Link
+  {
+    public int Id { get; set; }
+    public string Key { get; set; }
+    public string Value { get; set; }
+  }
 }
