@@ -13,7 +13,6 @@ namespace API.Data
     public DbSet<CoverArt> CoverArts { get; set; }
     // public DbSet<MangaChapter> MangaChapters { get; set; }
     public DbSet<ScanlationGroup> ScanlationGroups { get; set; }
-    // public DbSet<Tag> Tags { get; set; }
     public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
