@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210525161231_UpdatedChapterSupport")]
+    partial class UpdatedChapterSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -310,12 +312,17 @@ namespace API.Data.Migrations
                     b.Property<int?>("MangaCollectionId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("MangaId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("Result")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MangaCollectionId");
+
+                    b.HasIndex("MangaId");
 
                     b.ToTable("MangaChapters");
                 });
@@ -567,6 +574,10 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entites.MangaCollection", null)
                         .WithMany("Chapters")
                         .HasForeignKey("MangaCollectionId");
+
+                    b.HasOne("API.Entites.Manga", null)
+                        .WithMany("MangaChapters")
+                        .HasForeignKey("MangaId");
                 });
 
             modelBuilder.Entity("API.Entites.ScanlationGroup", b =>
@@ -636,6 +647,8 @@ namespace API.Data.Migrations
                     b.Navigation("Description");
 
                     b.Navigation("Links");
+
+                    b.Navigation("MangaChapters");
 
                     b.Navigation("Tags");
 

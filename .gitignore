@@ -449,3 +449,4 @@ $RECYCLE.BIN/
 API/appsettings.Development.json
 JSON Data/
 client/ssl/
+API/mangadexsharp.db-*

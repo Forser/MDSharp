@@ -3,14 +3,16 @@ using System;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210525155421_AddedChaptersSupport")]
+    partial class AddedChaptersSupport
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -271,9 +273,6 @@ namespace API.Data.Migrations
                     b.Property<string>("LastVolume")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MangaCollectionId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("OriginalLanguage")
                         .HasColumnType("TEXT");
 
@@ -297,8 +296,6 @@ namespace API.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MangaCollectionId");
-
                     b.ToTable("Mangas");
                 });
 
@@ -307,28 +304,12 @@ namespace API.Data.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("MangaCollectionId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Result")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MangaCollectionId");
-
                     b.ToTable("MangaChapters");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaCollection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MangaCollections");
                 });
 
             modelBuilder.Entity("API.Entites.ScanlationGroup", b =>
@@ -555,20 +536,6 @@ namespace API.Data.Migrations
                         .HasForeignKey("MangaId");
                 });
 
-            modelBuilder.Entity("API.Entites.Manga", b =>
-                {
-                    b.HasOne("API.Entites.MangaCollection", null)
-                        .WithMany("Mangas")
-                        .HasForeignKey("MangaCollectionId");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaChapter", b =>
-                {
-                    b.HasOne("API.Entites.MangaCollection", null)
-                        .WithMany("Chapters")
-                        .HasForeignKey("MangaCollectionId");
-                });
-
             modelBuilder.Entity("API.Entites.ScanlationGroup", b =>
                 {
                     b.HasOne("API.Entites.User", "Leader")
@@ -647,13 +614,6 @@ namespace API.Data.Migrations
                     b.Navigation("Data");
 
                     b.Navigation("Relationships");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaCollection", b =>
-                {
-                    b.Navigation("Chapters");
-
-                    b.Navigation("Mangas");
                 });
 
             modelBuilder.Entity("API.Entites.Tag", b =>
