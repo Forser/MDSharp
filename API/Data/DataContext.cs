@@ -10,20 +10,22 @@ namespace API.Data
     }
 
     public DbSet<Manga> Mangas { get; set; }
-    public DbSet<CoverArt> CoverArts { get; set; }
-    public DbSet<MangaChapter> MangaChapters { get; set; }
-    public DbSet<ScanlationGroup> ScanlationGroups { get; set; }
-    public DbSet<User> Users { get; set; }
-    public DbSet<MangaCollection> MangaCollections { get; set; }
+    // public DbSet<CoverArt> CoverArts { get; set; }
+    // public DbSet<MangaChapter> MangaChapters { get; set; }
+    // public DbSet<ScanlationGroup> ScanlationGroups { get; set; }
+    // public DbSet<User> Users { get; set; }
+    // public DbSet<MangaCollection> MangaCollections { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
 
         // builder.Entity<Manga>()
-        //   .HasOne(x => x.Id)
-        //   .WithOne()
-        //   .OnDelete(DeleteBehavior.Cascade);
+        //   .OwnsMany(p => p.relationship, a => {
+        //     a.WithOwner().HasForeignKey("Id");
+        //     a.Property<int>("Id");
+        //     a.HasKey("Id");
+        //   });
 
         // builder.Entity<CoverArt>()
         //   .HasOne(x => x.Id)
