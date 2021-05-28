@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
 using API.Entites;
@@ -24,12 +26,15 @@ namespace API.Data
             var chapters = JsonSerializer.Deserialize<MangaChapters>(chapterData);
 
             var readData = await System.IO.File.ReadAllTextAsync("../JSON Data/SoloLevelingChaptersRead.json");
-            var readChapters = JsonSerializer.Deserialize<ChaptersRead>(readData);
+            var readChapters = JsonDocument.Parse(readData);
+            var chaptersRead = readChapters.RootElement.EnumerateObject()
+                                .Where(it => it.Value.ValueKind == JsonValueKind.Array && it.Name == "data")
+                                .SelectMany(it => it.Value.EnumerateArray().Select(that => that.GetString()));
 
-            Console.WriteLine(chapters);
+            Console.WriteLine(chaptersRead);
 
             await context.Mangas.AddAsync(manga);
-            await context.ChaptersReads.AddAsync(readChapters);
+            //await context.ChaptersReads.AddAsync(chaptersRead);
             await context.MangaUsers.AddAsync(author);
             await context.MangaUsers.AddAsync(artist);
             await context.MangaChapters.AddAsync(chapters);

@@ -16,7 +16,7 @@ namespace API.Data
 
     public DbSet<Manga> Mangas { get; set; }
     public DbSet<MangaChapters> MangaChapters { get; set; }
-    public DbSet<ChaptersRead> ChaptersReads { get; set; }
+    //public DbSet<ChaptersRead> ChaptersReads { get; set; }
     public DbSet<CoverArt> CoverArts { get; set; }
     public DbSet<ScanlationGroup> ScanlationGroups { get; set; }
     public DbSet<MangaUser> MangaUsers { get; set; }
@@ -28,17 +28,17 @@ namespace API.Data
     {
         base.OnModelCreating(builder);
 
-        builder.Entity<ChaptersRead>()
-          .Property(e => e.Data)
-          .HasConversion(
-            v => JsonSerializer.Serialize(v, null),
-            v => JsonSerializer.Deserialize<List<string>>(v, null),
-            new ValueComparer<IList<string>>(
-              (c1, c2) => c1.SequenceEqual(c2),
-              c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-              c => (IList<string>)c.ToList()
-            )
-          );
+        // builder.Entity<ChaptersRead>()
+        //   .Property(e => e.Data)
+        //   .HasConversion(
+        //     v => JsonSerializer.Serialize(v, null),
+        //     v => JsonSerializer.Deserialize<List<string>>(v, null),
+        //     new ValueComparer<IList<string>>(
+        //       (c1, c2) => c1.SequenceEqual(c2),
+        //       c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+        //       c => (IList<string>)c.ToList()
+        //     )
+        //   );
 
         // builder.Entity<Manga>()
         //   .OwnsMany(p => p.relationship, a => {
