@@ -106,6 +106,18 @@ namespace API.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MangaCollection",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MangaCollection", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TagName",
                 columns: table => new
                 {
@@ -232,7 +244,6 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    MangaId = table.Column<string>(type: "TEXT", nullable: true),
                     TitleId = table.Column<int>(type: "INTEGER", nullable: true),
                     DescriptionId = table.Column<int>(type: "INTEGER", nullable: true),
                     LinksId = table.Column<int>(type: "INTEGER", nullable: true),
@@ -387,6 +398,7 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    MangaId = table.Column<string>(type: "TEXT", nullable: true),
                     MangaAttributesId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -497,11 +509,18 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Result = table.Column<string>(type: "TEXT", nullable: true),
-                    DataId = table.Column<int>(type: "INTEGER", nullable: true)
+                    DataId = table.Column<int>(type: "INTEGER", nullable: true),
+                    MangaCollectionId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mangas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Mangas_MangaCollection_MangaCollectionId",
+                        column: x => x.MangaCollectionId,
+                        principalTable: "MangaCollection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Mangas_MangaData_DataId",
                         column: x => x.DataId,
@@ -590,6 +609,11 @@ namespace API.Data.Migrations
                 name: "IX_Mangas_DataId",
                 table: "Mangas",
                 column: "DataId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Mangas_MangaCollectionId",
+                table: "Mangas",
+                column: "MangaCollectionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MangaUsers_DataId",
@@ -687,6 +711,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "MangaChapters");
+
+            migrationBuilder.DropTable(
+                name: "MangaCollection");
 
             migrationBuilder.DropTable(
                 name: "MangaData");

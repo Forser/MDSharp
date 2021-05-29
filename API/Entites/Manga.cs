@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace API.Entites
@@ -11,7 +10,7 @@ namespace API.Entites
     [Key]
     [JsonIgnore]
     public int Id { get; set; }
-    [JsonPropertyName("Result")]
+    [JsonPropertyName("result")]
     public string Result { get; set; }
     [JsonPropertyName("data")]
     public MangaData Data { get; set; }
@@ -35,6 +34,8 @@ namespace API.Entites
     [Key]
     [JsonIgnore]
     public int Id { get; set; }
+    [JsonPropertyName("id")]
+    public string MangaId { get; set; }
     [JsonPropertyName("attributes")]
     public MangaAttributes MangaAttributes { get; set; }
   }
@@ -45,8 +46,6 @@ namespace API.Entites
     [JsonIgnore]
     public int Id { get; set; }
 
-    [JsonPropertyName("id")]
-    public string MangaId { get; set; }
     [JsonPropertyName("title")]
     public Title Title { get; set; }
     [JsonPropertyName("altTitles")]

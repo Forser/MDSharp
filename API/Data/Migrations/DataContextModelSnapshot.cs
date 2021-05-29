@@ -267,12 +267,17 @@ namespace API.Data.Migrations
                     b.Property<int?>("DataId")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("MangaCollectionId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Result")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DataId");
+
+                    b.HasIndex("MangaCollectionId");
 
                     b.ToTable("Mangas");
                 });
@@ -303,9 +308,6 @@ namespace API.Data.Migrations
 
                     b.Property<int?>("LinksId")
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("MangaId")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("OriginalLanguage")
                         .HasColumnType("TEXT");
@@ -374,6 +376,17 @@ namespace API.Data.Migrations
                     b.ToTable("MangaChapters");
                 });
 
+            modelBuilder.Entity("API.Entites.MangaCollection", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MangaCollection");
+                });
+
             modelBuilder.Entity("API.Entites.MangaData", b =>
                 {
                     b.Property<int>("Id")
@@ -382,6 +395,9 @@ namespace API.Data.Migrations
 
                     b.Property<int?>("MangaAttributesId")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("MangaId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -667,6 +683,10 @@ namespace API.Data.Migrations
                         .WithMany()
                         .HasForeignKey("DataId");
 
+                    b.HasOne("API.Entites.MangaCollection", null)
+                        .WithMany("Mangas")
+                        .HasForeignKey("MangaCollectionId");
+
                     b.Navigation("Data");
                 });
 
@@ -801,6 +821,11 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entites.MangaChapters", b =>
                 {
                     b.Navigation("results");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaCollection", b =>
+                {
+                    b.Navigation("Mangas");
                 });
 
             modelBuilder.Entity("API.Entites.User", b =>
