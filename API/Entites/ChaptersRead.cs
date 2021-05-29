@@ -8,10 +8,19 @@ namespace API.Entites
     public class ChaptersRead
     {
         [Key]
+        [JsonIgnore]
         public int Id { get; set; }
         [JsonPropertyName("result")]
         public string Result { get; set; }
         [JsonPropertyName("data")]
-        public IList<string> Data { get; set; }
+        public List<ChapterId> Data { get; set; } = new List<ChapterId>();
+    }
+
+    public class ChapterId
+    {
+        [Key]
+        [JsonIgnore]
+        public int Id { get; set; }
+        public string ReadId { get; set; }
     }
 }

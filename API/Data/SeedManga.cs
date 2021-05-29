@@ -33,8 +33,19 @@ namespace API.Data
 
             Console.WriteLine(chaptersRead);
 
+            var _chapters = new List<string>();
+            _chapters.AddRange(chaptersRead);
+
+            var _readChapters = new ChaptersRead();
+
+            foreach (var _chapter in chaptersRead)
+            {
+                var readChapter = new ChapterId { ReadId = _chapter };
+                _readChapters.Data.Add(readChapter);
+            }
+
             await context.Mangas.AddAsync(manga);
-            //await context.ChaptersReads.AddAsync(chaptersRead);
+            await context.ChaptersReads.AddRangeAsync(_readChapters);
             await context.MangaUsers.AddAsync(author);
             await context.MangaUsers.AddAsync(artist);
             await context.MangaChapters.AddAsync(chapters);

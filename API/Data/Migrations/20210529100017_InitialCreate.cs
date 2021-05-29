@@ -34,8 +34,7 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Result = table.Column<string>(type: "TEXT", nullable: true),
-                    Data = table.Column<string>(type: "TEXT", nullable: true)
+                    Result = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -181,6 +180,26 @@ namespace API.Data.Migrations
                         name: "FK_ChapterData_ChapterAttributes_AttributesId",
                         column: x => x.AttributesId,
                         principalTable: "ChapterAttributes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ChapterId",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ReadId = table.Column<string>(type: "TEXT", nullable: true),
+                    ChaptersReadId = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ChapterId", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ChapterId_ChaptersReads_ChaptersReadId",
+                        column: x => x.ChaptersReadId,
+                        principalTable: "ChaptersReads",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -527,6 +546,11 @@ namespace API.Data.Migrations
                 column: "AttributesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ChapterId_ChaptersReadId",
+                table: "ChapterId",
+                column: "ChaptersReadId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ChapterRelationship_MangaChapterId",
                 table: "ChapterRelationship",
                 column: "MangaChapterId");
@@ -616,10 +640,10 @@ namespace API.Data.Migrations
                 name: "Bio");
 
             migrationBuilder.DropTable(
-                name: "ChapterRelationship");
+                name: "ChapterId");
 
             migrationBuilder.DropTable(
-                name: "ChaptersReads");
+                name: "ChapterRelationship");
 
             migrationBuilder.DropTable(
                 name: "CoverArts");
@@ -638,6 +662,9 @@ namespace API.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserRelationship");
+
+            migrationBuilder.DropTable(
+                name: "ChaptersReads");
 
             migrationBuilder.DropTable(
                 name: "MangaChapter");

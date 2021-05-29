@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210528154835_InitialCreate")]
+    [Migration("20210529100017_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,25 @@ namespace API.Data.Migrations
                     b.ToTable("ChapterData");
                 });
 
+            modelBuilder.Entity("API.Entites.ChapterId", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ChaptersReadId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ReadId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ChaptersReadId");
+
+                    b.ToTable("ChapterId");
+                });
+
             modelBuilder.Entity("API.Entites.ChapterRelationship", b =>
                 {
                     b.Property<int>("Id")
@@ -146,9 +165,6 @@ namespace API.Data.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<string>("Data")
-                        .HasColumnType("TEXT");
 
                     b.Property<string>("Result")
                         .HasColumnType("TEXT");
@@ -630,6 +646,13 @@ namespace API.Data.Migrations
                     b.Navigation("Attributes");
                 });
 
+            modelBuilder.Entity("API.Entites.ChapterId", b =>
+                {
+                    b.HasOne("API.Entites.ChaptersRead", null)
+                        .WithMany("Data")
+                        .HasForeignKey("ChaptersReadId");
+                });
+
             modelBuilder.Entity("API.Entites.ChapterRelationship", b =>
                 {
                     b.HasOne("API.Entites.MangaChapter", null)
@@ -750,6 +773,11 @@ namespace API.Data.Migrations
                     b.HasOne("API.Entites.UserData", null)
                         .WithMany("Relationships")
                         .HasForeignKey("UserDataId");
+                });
+
+            modelBuilder.Entity("API.Entites.ChaptersRead", b =>
+                {
+                    b.Navigation("Data");
                 });
 
             modelBuilder.Entity("API.Entites.Manga", b =>
