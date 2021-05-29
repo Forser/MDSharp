@@ -171,7 +171,8 @@ namespace API.Data.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     ChapterId = table.Column<string>(type: "TEXT", nullable: true),
                     Type = table.Column<string>(type: "TEXT", nullable: true),
-                    AttributesId = table.Column<int>(type: "INTEGER", nullable: true)
+                    AttributesId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ChapterRead = table.Column<bool>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -232,39 +233,39 @@ namespace API.Data.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     MangaId = table.Column<string>(type: "TEXT", nullable: true),
-                    titleId = table.Column<int>(type: "INTEGER", nullable: true),
-                    descriptionId = table.Column<int>(type: "INTEGER", nullable: true),
-                    linksId = table.Column<int>(type: "INTEGER", nullable: true),
-                    isLocked = table.Column<bool>(type: "INTEGER", nullable: false),
-                    originalLanguage = table.Column<string>(type: "TEXT", nullable: true),
-                    lastVolume = table.Column<string>(type: "TEXT", nullable: true),
-                    lastChapter = table.Column<string>(type: "TEXT", nullable: true),
-                    publicationDemographic = table.Column<string>(type: "TEXT", nullable: true),
-                    status = table.Column<string>(type: "TEXT", nullable: true),
-                    year = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    contentRating = table.Column<string>(type: "TEXT", nullable: true),
-                    version = table.Column<int>(type: "INTEGER", nullable: false),
-                    createdAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    updatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    TitleId = table.Column<int>(type: "INTEGER", nullable: true),
+                    DescriptionId = table.Column<int>(type: "INTEGER", nullable: true),
+                    LinksId = table.Column<int>(type: "INTEGER", nullable: true),
+                    IsLocked = table.Column<bool>(type: "INTEGER", nullable: false),
+                    OriginalLanguage = table.Column<string>(type: "TEXT", nullable: true),
+                    LastVolume = table.Column<string>(type: "TEXT", nullable: true),
+                    LastChapter = table.Column<string>(type: "TEXT", nullable: true),
+                    PublicationDemographic = table.Column<string>(type: "TEXT", nullable: true),
+                    Status = table.Column<string>(type: "TEXT", nullable: true),
+                    Year = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    ContentRating = table.Column<string>(type: "TEXT", nullable: true),
+                    Version = table.Column<int>(type: "INTEGER", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_MangaAttributes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MangaAttributes_Description_descriptionId",
-                        column: x => x.descriptionId,
+                        name: "FK_MangaAttributes_Description_DescriptionId",
+                        column: x => x.DescriptionId,
                         principalTable: "Description",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MangaAttributes_Link_linksId",
-                        column: x => x.linksId,
+                        name: "FK_MangaAttributes_Link_LinksId",
+                        column: x => x.LinksId,
                         principalTable: "Link",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_MangaAttributes_Title_titleId",
-                        column: x => x.titleId,
+                        name: "FK_MangaAttributes_Title_TitleId",
+                        column: x => x.TitleId,
                         principalTable: "Title",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -495,15 +496,15 @@ namespace API.Data.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    result = table.Column<string>(type: "TEXT", nullable: true),
-                    dataId = table.Column<int>(type: "INTEGER", nullable: true)
+                    Result = table.Column<string>(type: "TEXT", nullable: true),
+                    DataId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Mangas", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Mangas_MangaData_dataId",
-                        column: x => x.dataId,
+                        name: "FK_Mangas_MangaData_DataId",
+                        column: x => x.DataId,
                         principalTable: "MangaData",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -556,19 +557,19 @@ namespace API.Data.Migrations
                 column: "MangaChapterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MangaAttributes_descriptionId",
+                name: "IX_MangaAttributes_DescriptionId",
                 table: "MangaAttributes",
-                column: "descriptionId");
+                column: "DescriptionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MangaAttributes_linksId",
+                name: "IX_MangaAttributes_LinksId",
                 table: "MangaAttributes",
-                column: "linksId");
+                column: "LinksId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MangaAttributes_titleId",
+                name: "IX_MangaAttributes_TitleId",
                 table: "MangaAttributes",
-                column: "titleId");
+                column: "TitleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MangaChapter_DataId",
@@ -586,9 +587,9 @@ namespace API.Data.Migrations
                 column: "MangaAttributesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Mangas_dataId",
+                name: "IX_Mangas_DataId",
                 table: "Mangas",
-                column: "dataId");
+                column: "DataId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MangaUsers_DataId",

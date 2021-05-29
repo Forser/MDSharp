@@ -107,6 +107,9 @@ namespace API.Data.Migrations
                     b.Property<string>("ChapterId")
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("ChapterRead")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
@@ -261,15 +264,15 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("dataId")
+                    b.Property<int?>("DataId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("result")
+                    b.Property<string>("Result")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("dataId");
+                    b.HasIndex("DataId");
 
                     b.ToTable("Mangas");
                 });
@@ -280,58 +283,58 @@ namespace API.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("ContentRating")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("DescriptionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastChapter")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastVolume")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("LinksId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("MangaId")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("contentRating")
+                    b.Property<string>("OriginalLanguage")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("createdAt")
+                    b.Property<string>("PublicationDemographic")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("descriptionId")
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("TitleId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<bool>("isLocked")
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Version")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("lastChapter")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("lastVolume")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("linksId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("originalLanguage")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("publicationDemographic")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("status")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("titleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("updatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("version")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("year")
+                    b.Property<DateTime?>("Year")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("descriptionId");
+                    b.HasIndex("DescriptionId");
 
-                    b.HasIndex("linksId");
+                    b.HasIndex("LinksId");
 
-                    b.HasIndex("titleId");
+                    b.HasIndex("TitleId");
 
                     b.ToTable("MangaAttributes");
                 });
@@ -624,7 +627,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entites.AltTitle", b =>
                 {
                     b.HasOne("API.Entites.MangaAttributes", null)
-                        .WithMany("altTitles")
+                        .WithMany("AltTitles")
                         .HasForeignKey("MangaAttributesId");
                 });
 
@@ -660,32 +663,32 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entites.Manga", b =>
                 {
-                    b.HasOne("API.Entites.MangaData", "data")
+                    b.HasOne("API.Entites.MangaData", "Data")
                         .WithMany()
-                        .HasForeignKey("dataId");
+                        .HasForeignKey("DataId");
 
-                    b.Navigation("data");
+                    b.Navigation("Data");
                 });
 
             modelBuilder.Entity("API.Entites.MangaAttributes", b =>
                 {
-                    b.HasOne("API.Entites.Description", "description")
+                    b.HasOne("API.Entites.Description", "Description")
                         .WithMany()
-                        .HasForeignKey("descriptionId");
+                        .HasForeignKey("DescriptionId");
 
-                    b.HasOne("API.Entites.Link", "links")
+                    b.HasOne("API.Entites.Link", "Links")
                         .WithMany()
-                        .HasForeignKey("linksId");
+                        .HasForeignKey("LinksId");
 
-                    b.HasOne("API.Entites.Title", "title")
+                    b.HasOne("API.Entites.Title", "Title")
                         .WithMany()
-                        .HasForeignKey("titleId");
+                        .HasForeignKey("TitleId");
 
-                    b.Navigation("description");
+                    b.Navigation("Description");
 
-                    b.Navigation("links");
+                    b.Navigation("Links");
 
-                    b.Navigation("title");
+                    b.Navigation("Title");
                 });
 
             modelBuilder.Entity("API.Entites.MangaChapter", b =>
@@ -722,7 +725,7 @@ namespace API.Data.Migrations
             modelBuilder.Entity("API.Entites.Relationship", b =>
                 {
                     b.HasOne("API.Entites.Manga", null)
-                        .WithMany("relationships")
+                        .WithMany("Relationships")
                         .HasForeignKey("MangaId");
                 });
 
@@ -780,12 +783,12 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entites.Manga", b =>
                 {
-                    b.Navigation("relationships");
+                    b.Navigation("Relationships");
                 });
 
             modelBuilder.Entity("API.Entites.MangaAttributes", b =>
                 {
-                    b.Navigation("altTitles");
+                    b.Navigation("AltTitles");
 
                     b.Navigation("Tags");
                 });

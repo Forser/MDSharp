@@ -9,10 +9,14 @@ namespace API.Entites
   public class Manga
   {
     [Key]
+    [JsonIgnore]
     public int Id { get; set; }
-    public string result { get; set; }
-    public MangaData data { get; set; }
-    public IList<Relationship> relationships { get; set; }
+    [JsonPropertyName("Result")]
+    public string Result { get; set; }
+    [JsonPropertyName("data")]
+    public MangaData Data { get; set; }
+    [JsonPropertyName("relationships")]
+    public IList<Relationship> Relationships { get; set; }
   }
 
   public class Relationship
@@ -28,6 +32,7 @@ namespace API.Entites
 
   public class MangaData
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
     [JsonPropertyName("attributes")]
@@ -42,27 +47,43 @@ namespace API.Entites
 
     [JsonPropertyName("id")]
     public string MangaId { get; set; }
-    public Title title { get; set; }
-    public List<AltTitle> altTitles { get; set; } = new List<AltTitle>();
-    public Description description { get; set; }
+    [JsonPropertyName("title")]
+    public Title Title { get; set; }
+    [JsonPropertyName("altTitles")]
+    public List<AltTitle> AltTitles { get; set; } = new List<AltTitle>();
+    [JsonPropertyName("description")]
+    public Description Description { get; set; }
     [JsonPropertyName("tags")]
     public List<Tag> Tags { get; set; } = new List<Tag>();
-    public Link links { get; set; }
-    public bool isLocked { get; set; } = false;
-    public string originalLanguage { get; set; }
-    public string lastVolume { get; set; }
-    public string lastChapter { get; set; }
-    public string publicationDemographic { get; set; }
-    public string status { get; set; }
-    public DateTime? year { get; set; }
-    public string contentRating { get; set; }
-    public int version { get; set; }
-    public DateTime createdAt { get; set; }
-    public DateTime updatedAt { get; set; }
+    [JsonPropertyName("links")]
+    public Link Links { get; set; }
+    [JsonPropertyName("isLocked")]
+    public bool IsLocked { get; set; } = false;
+    [JsonPropertyName("originalLanguage")]
+    public string OriginalLanguage { get; set; }
+    [JsonPropertyName("lastVolume")]
+    public string LastVolume { get; set; }
+    [JsonPropertyName("lastChapter")]
+    public string LastChapter { get; set; }
+    [JsonPropertyName("publicationDemographic")]
+    public string PublicationDemographic { get; set; }
+    [JsonPropertyName("status")]
+    public string Status { get; set; }
+    [JsonPropertyName("year")]
+    public DateTime? Year { get; set; }
+    [JsonPropertyName("contentRating")]
+    public string ContentRating { get; set; }
+    [JsonPropertyName("version")]
+    public int Version { get; set; }
+    [JsonPropertyName("createdAt")]
+    public DateTime CreatedAt { get; set; }
+    [JsonPropertyName("updatedAt")]
+    public DateTime UpdatedAt { get; set; }
   }
 
   public class Description
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
     [JsonPropertyName("en")]
@@ -71,6 +92,7 @@ namespace API.Entites
 
   public class Title
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
     [JsonPropertyName("en")]
@@ -79,6 +101,7 @@ namespace API.Entites
 
   public class AltTitle
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
     [JsonPropertyName("en")]
@@ -86,6 +109,7 @@ namespace API.Entites
   }
   public class Link
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
 
@@ -115,6 +139,7 @@ namespace API.Entites
 
   public class Tag
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
     [JsonPropertyName("id")]
@@ -127,6 +152,7 @@ namespace API.Entites
 
   public class TagAttributes
   {
+    [Key]
     [JsonIgnore]
     public int Id { get; set; }
 

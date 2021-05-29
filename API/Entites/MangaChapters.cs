@@ -38,6 +38,7 @@ namespace API.Entites
         public string Type { get; set; }
         [JsonPropertyName("attributes")]
         public ChapterAttributes Attributes { get; set; }
+        public bool ChapterRead { get; set; } = false;
     }
 
     public class ChapterAttributes
