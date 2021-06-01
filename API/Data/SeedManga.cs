@@ -11,14 +11,14 @@ namespace API.Data
     {
         public static async Task MangaSeeder(DataContext context)
         {
-            // var authorData = await System.IO.File.ReadAllTextAsync("../JSON Data/AuthorSoloLeveling.json");
-            // var author = JsonSerializer.Deserialize<MangaUser>(authorData);
+            var authorData = await System.IO.File.ReadAllTextAsync("../JSON Data/AuthorSoloLeveling.json");
+            var author = JsonSerializer.Deserialize<MangaUser>(authorData);
 
-            // var artistData = await System.IO.File.ReadAllTextAsync("../JSON Data/ArtistSoloLeveling.json");
-            // var artist = JsonSerializer.Deserialize<MangaUser>(artistData);
+            var artistData = await System.IO.File.ReadAllTextAsync("../JSON Data/ArtistSoloLeveling.json");
+            var artist = JsonSerializer.Deserialize<MangaUser>(artistData);
 
-            // var chapterData = await System.IO.File.ReadAllTextAsync("../JSON Data/ChaptersForSoloLeveling.json");
-            // var chapters = JsonSerializer.Deserialize<MangaChapters>(chapterData);
+            var chapterData = await System.IO.File.ReadAllTextAsync("../JSON Data/ChaptersForSoloLeveling.json");
+            var chapters = JsonSerializer.Deserialize<MangaChapters>(chapterData);
 
             var readData = await System.IO.File.ReadAllTextAsync("../JSON Data/SoloLevelingChaptersRead.json");
             var readChapters = JsonDocument.Parse(readData);
@@ -44,7 +44,7 @@ namespace API.Data
             if (mangas == null) return;
 
             await context.MangaCollection.AddAsync(mangas);
-            await context.ChaptersReads.AddRangeAsync(_readChapters);
+            // await context.ChaptersReads.AddRangeAsync(_readChapters);
 
             // await context.Mangas.AddAsync(manga);
             // await context.MangaUsers.AddAsync(author);

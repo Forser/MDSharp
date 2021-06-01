@@ -8,9 +8,8 @@ namespace API.Entites
     {
         [Key]
         [JsonIgnore]
-        public int Id { get; set; }
+        public int MangaCollectionId { get; set; }
         [JsonPropertyName("results")]
         public List<Manga> Mangas { get; set; } = new List<Manga>();
-        //public List<MangaChapter> Chapters { get; set; } = new List<MangaChapter>();
     }
 }

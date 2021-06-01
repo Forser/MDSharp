@@ -16,25 +16,6 @@ namespace API.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.6");
 
-            modelBuilder.Entity("API.Entites.AltTitle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MangaAttributesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MangaAttributesId");
-
-                    b.ToTable("AltTitle");
-                });
-
             modelBuilder.Entity("API.Entites.Bio", b =>
                 {
                     b.Property<int>("Id")
@@ -59,7 +40,7 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entites.ChapterAttributes", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ChapterAttributesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -68,6 +49,9 @@ namespace API.Data.Migrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("FK_ChapterData_Id")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Hash")
                         .HasColumnType("TEXT");
@@ -90,18 +74,18 @@ namespace API.Data.Migrations
                     b.Property<string>("Volume")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChapterAttributesId");
 
                     b.ToTable("ChapterAttributes");
                 });
 
             modelBuilder.Entity("API.Entites.ChapterData", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ChapterDataId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("AttributesId")
+                    b.Property<int?>("AttributesChapterAttributesId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("ChapterId")
@@ -110,12 +94,15 @@ namespace API.Data.Migrations
                     b.Property<bool>("ChapterRead")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("FK_MangaChapter_Id")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChapterDataId");
 
-                    b.HasIndex("AttributesId");
+                    b.HasIndex("AttributesChapterAttributesId");
 
                     b.ToTable("ChapterData");
                 });
@@ -141,8 +128,11 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entites.ChapterRelationship", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("ChapterRelationshipId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_MangaChapter_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MangaChapterId")
@@ -154,7 +144,7 @@ namespace API.Data.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChapterRelationshipId");
 
                     b.HasIndex("MangaChapterId");
 
@@ -200,23 +190,216 @@ namespace API.Data.Migrations
                     b.ToTable("CoverArts");
                 });
 
-            modelBuilder.Entity("API.Entites.Description", b =>
+            modelBuilder.Entity("API.Entites.Manga", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MangaId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Value")
+                    b.Property<int?>("DataMangaDataId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_MangaCollection_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaChaptersId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaCollectionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Result")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("MangaId");
 
-                    b.ToTable("Description");
+                    b.HasIndex("DataMangaDataId");
+
+                    b.HasIndex("MangaChaptersId");
+
+                    b.HasIndex("MangaCollectionId");
+
+                    b.ToTable("Mangas");
                 });
 
-            modelBuilder.Entity("API.Entites.Link", b =>
+            modelBuilder.Entity("API.Entites.MangaAltTitle", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MangaAltTitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("AltTitle")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FK_MangaAttributes_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaAttributesId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MangaAltTitleId");
+
+                    b.HasIndex("MangaAttributesId");
+
+                    b.ToTable("MangaAltTitle");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaAttributes", b =>
+                {
+                    b.Property<int>("MangaAttributesId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ContentRating")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FK_MangaData_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("IsLocked")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("LastChapter")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LastVolume")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("MangaDescriptionId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaLinksMangaLinkId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("OriginalLanguage")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicationDemographic")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("TitleMangaTitleId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime?>("Year")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MangaAttributesId");
+
+                    b.HasIndex("MangaDescriptionId");
+
+                    b.HasIndex("MangaLinksMangaLinkId");
+
+                    b.HasIndex("TitleMangaTitleId");
+
+                    b.ToTable("MangaAttributes");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaChapter", b =>
+                {
+                    b.Property<int>("MangaChapterId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("DataChapterDataId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_MangaChapters_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaChaptersId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Result")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MangaChapterId");
+
+                    b.HasIndex("DataChapterDataId");
+
+                    b.HasIndex("MangaChaptersId");
+
+                    b.ToTable("MangaChapter");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaChapters", b =>
+                {
+                    b.Property<int>("MangaChaptersId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_Manga_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MangaChaptersId");
+
+                    b.ToTable("MangaChapters");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaCollection", b =>
+                {
+                    b.Property<int>("MangaCollectionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MangaCollectionId");
+
+                    b.ToTable("MangaCollection");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaData", b =>
+                {
+                    b.Property<int>("MangaDataId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_Manga_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("MangaAttributesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("MangaId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MangaDataId");
+
+                    b.HasIndex("MangaAttributesId");
+
+                    b.ToTable("MangaData");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaDescription", b =>
+                {
+                    b.Property<int>("MangaDescriptionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("FK_MangaAttributes_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("MangaDescriptionId");
+
+                    b.ToTable("MangaDescription");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaLink", b =>
+                {
+                    b.Property<int>("MangaLinkId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -238,6 +421,9 @@ namespace API.Data.Migrations
                     b.Property<string>("EngTL")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("FK_MangaAttributes_Id")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Kitsu")
                         .HasColumnType("TEXT");
 
@@ -253,157 +439,56 @@ namespace API.Data.Migrations
                     b.Property<string>("Raw")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("MangaLinkId");
 
-                    b.ToTable("Link");
+                    b.ToTable("MangaLink");
                 });
 
-            modelBuilder.Entity("API.Entites.Manga", b =>
+            modelBuilder.Entity("API.Entites.MangaTag", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("MangaTagId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DataId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MangaCollectionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Result")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DataId");
-
-                    b.HasIndex("MangaCollectionId");
-
-                    b.ToTable("Mangas");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaAttributes", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("ContentRating")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("DescriptionId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<bool>("IsLocked")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("LastChapter")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("LastVolume")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("LinksId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("OriginalLanguage")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("PublicationDemographic")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Status")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int?>("TitleId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("Version")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime?>("Year")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DescriptionId");
-
-                    b.HasIndex("LinksId");
-
-                    b.HasIndex("TitleId");
-
-                    b.ToTable("MangaAttributes");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaChapter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("DataId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MangaChaptersId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Result")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DataId");
-
-                    b.HasIndex("MangaChaptersId");
-
-                    b.ToTable("MangaChapter");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaChapters", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MangaChapters");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaCollection", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("MangaCollection");
-                });
-
-            modelBuilder.Entity("API.Entites.MangaData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("FK_MangaAttributes_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MangaAttributesId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("MangaId")
+                    b.Property<int?>("TagAttributesId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("TagId")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Type")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MangaTagId");
 
                     b.HasIndex("MangaAttributesId");
 
-                    b.ToTable("MangaData");
+                    b.HasIndex("TagAttributesId");
+
+                    b.ToTable("MangaTag");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaTitle", b =>
+                {
+                    b.Property<int>("MangaTitleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_MangaAttributes_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("MangaTitleId");
+
+                    b.ToTable("MangaTitle");
                 });
 
             modelBuilder.Entity("API.Entites.MangaUser", b =>
@@ -429,6 +514,9 @@ namespace API.Data.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_Manga_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("MangaId")
@@ -471,81 +559,46 @@ namespace API.Data.Migrations
                     b.ToTable("ScanlationGroups");
                 });
 
-            modelBuilder.Entity("API.Entites.Tag", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("AttributesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("MangaAttributesId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("TagId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Type")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AttributesId");
-
-                    b.HasIndex("MangaAttributesId");
-
-                    b.ToTable("Tag");
-                });
-
             modelBuilder.Entity("API.Entites.TagAttributes", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TagAttributesId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_MangaTag_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Group")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("NameId")
+                    b.Property<int?>("NameTagNameId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Version")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("Id");
+                    b.HasKey("TagAttributesId");
 
-                    b.HasIndex("NameId");
+                    b.HasIndex("NameTagNameId");
 
                     b.ToTable("TagAttributes");
                 });
 
             modelBuilder.Entity("API.Entites.TagName", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("TagNameId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("FK_TagAttributes_Id")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("TagNameId");
 
                     b.ToTable("TagName");
-                });
-
-            modelBuilder.Entity("API.Entites.Title", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Title");
                 });
 
             modelBuilder.Entity("API.Entites.User", b =>
@@ -640,13 +693,6 @@ namespace API.Data.Migrations
                     b.ToTable("UserRelationship");
                 });
 
-            modelBuilder.Entity("API.Entites.AltTitle", b =>
-                {
-                    b.HasOne("API.Entites.MangaAttributes", null)
-                        .WithMany("AltTitles")
-                        .HasForeignKey("MangaAttributesId");
-                });
-
             modelBuilder.Entity("API.Entites.Bio", b =>
                 {
                     b.HasOne("API.Entites.User", null)
@@ -658,7 +704,7 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entites.ChapterAttributes", "Attributes")
                         .WithMany()
-                        .HasForeignKey("AttributesId");
+                        .HasForeignKey("AttributesChapterAttributesId");
 
                     b.Navigation("Attributes");
                 });
@@ -681,32 +727,45 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entites.MangaData", "Data")
                         .WithMany()
-                        .HasForeignKey("DataId");
+                        .HasForeignKey("DataMangaDataId");
+
+                    b.HasOne("API.Entites.MangaChapters", "MangaChapters")
+                        .WithMany()
+                        .HasForeignKey("MangaChaptersId");
 
                     b.HasOne("API.Entites.MangaCollection", null)
                         .WithMany("Mangas")
                         .HasForeignKey("MangaCollectionId");
 
                     b.Navigation("Data");
+
+                    b.Navigation("MangaChapters");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaAltTitle", b =>
+                {
+                    b.HasOne("API.Entites.MangaAttributes", null)
+                        .WithMany("AltTitles")
+                        .HasForeignKey("MangaAttributesId");
                 });
 
             modelBuilder.Entity("API.Entites.MangaAttributes", b =>
                 {
-                    b.HasOne("API.Entites.Description", "Description")
+                    b.HasOne("API.Entites.MangaDescription", "MangaDescription")
                         .WithMany()
-                        .HasForeignKey("DescriptionId");
+                        .HasForeignKey("MangaDescriptionId");
 
-                    b.HasOne("API.Entites.Link", "Links")
+                    b.HasOne("API.Entites.MangaLink", "MangaLinks")
                         .WithMany()
-                        .HasForeignKey("LinksId");
+                        .HasForeignKey("MangaLinksMangaLinkId");
 
-                    b.HasOne("API.Entites.Title", "Title")
+                    b.HasOne("API.Entites.MangaTitle", "Title")
                         .WithMany()
-                        .HasForeignKey("TitleId");
+                        .HasForeignKey("TitleMangaTitleId");
 
-                    b.Navigation("Description");
+                    b.Navigation("MangaDescription");
 
-                    b.Navigation("Links");
+                    b.Navigation("MangaLinks");
 
                     b.Navigation("Title");
                 });
@@ -715,7 +774,7 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entites.ChapterData", "Data")
                         .WithMany()
-                        .HasForeignKey("DataId");
+                        .HasForeignKey("DataChapterDataId");
 
                     b.HasOne("API.Entites.MangaChapters", null)
                         .WithMany("results")
@@ -731,6 +790,19 @@ namespace API.Data.Migrations
                         .HasForeignKey("MangaAttributesId");
 
                     b.Navigation("MangaAttributes");
+                });
+
+            modelBuilder.Entity("API.Entites.MangaTag", b =>
+                {
+                    b.HasOne("API.Entites.MangaAttributes", null)
+                        .WithMany("Tags")
+                        .HasForeignKey("MangaAttributesId");
+
+                    b.HasOne("API.Entites.TagAttributes", "TagAttributes")
+                        .WithMany()
+                        .HasForeignKey("TagAttributesId");
+
+                    b.Navigation("TagAttributes");
                 });
 
             modelBuilder.Entity("API.Entites.MangaUser", b =>
@@ -758,24 +830,11 @@ namespace API.Data.Migrations
                     b.Navigation("Leader");
                 });
 
-            modelBuilder.Entity("API.Entites.Tag", b =>
-                {
-                    b.HasOne("API.Entites.TagAttributes", "Attributes")
-                        .WithMany()
-                        .HasForeignKey("AttributesId");
-
-                    b.HasOne("API.Entites.MangaAttributes", null)
-                        .WithMany("Tags")
-                        .HasForeignKey("MangaAttributesId");
-
-                    b.Navigation("Attributes");
-                });
-
             modelBuilder.Entity("API.Entites.TagAttributes", b =>
                 {
                     b.HasOne("API.Entites.TagName", "Name")
                         .WithMany()
-                        .HasForeignKey("NameId");
+                        .HasForeignKey("NameTagNameId");
 
                     b.Navigation("Name");
                 });

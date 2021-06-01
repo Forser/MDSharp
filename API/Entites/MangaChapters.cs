@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace API.Entites
@@ -9,15 +10,18 @@ namespace API.Entites
     {
         [JsonIgnore]
         [Key]
-        public int Id { get; set; }
+        public int MangaChaptersId { get; set; }
         public List<MangaChapter> results {get; set;}
+        [JsonIgnore]
+        [ForeignKey("MangaId")]
+        public int FK_Manga_Id { get; set; }
     }
 
     public class MangaChapter
     {
         [JsonIgnore]
         [Key]
-        public int Id { get; set; }
+        public int MangaChapterId { get; set; }
         [JsonPropertyName("result")]
         public string Result { get; set; }
 
@@ -25,13 +29,16 @@ namespace API.Entites
         public ChapterData Data { get; set; }
         [JsonPropertyName("relationships")]
         public List<ChapterRelationship> Relationships { get; set; } = new List<ChapterRelationship>();
+        [JsonIgnore]
+        [ForeignKey("MangaChaptersId")]
+        public int FK_MangaChapters_Id { get; set; }
     }
 
     public class ChapterData
     {
         [JsonIgnore]
         [Key]
-        public int Id { get; set; }
+        public int ChapterDataId { get; set; }
         [JsonPropertyName("id")]
         public string ChapterId { get; set; }
         [JsonPropertyName("type")]
@@ -39,13 +46,16 @@ namespace API.Entites
         [JsonPropertyName("attributes")]
         public ChapterAttributes Attributes { get; set; }
         public bool ChapterRead { get; set; } = false;
+        [JsonIgnore]
+        [ForeignKey("MangaChapterId")]
+        public int FK_MangaChapter_Id { get; set; }
     }
 
     public class ChapterAttributes
     {
         [JsonIgnore]
         [Key]
-        public int Id { get; set; }
+        public int ChapterAttributesId { get; set; }
         [JsonPropertyName("volume")]
         public string Volume { get; set; }
         [JsonPropertyName("chapter")]
@@ -70,16 +80,22 @@ namespace API.Entites
         public DateTime UpdatedAt { get; set; }
         [JsonPropertyName("version")]
         public int Version { get; set; }
+        [JsonIgnore]
+        [ForeignKey("ChapterDataId")]
+        public int FK_ChapterData_Id { get; set; }
     }
 
     public class ChapterRelationship
     {
         [JsonIgnore]
         [Key]
-        public int Id { get; set; }
+        public int ChapterRelationshipId { get; set; }
         [JsonPropertyName("id")]
         public string RelationshipId { get; set; }
         [JsonPropertyName("type")]
         public string Type { get; set; }
+        [JsonIgnore]
+        [ForeignKey("MangaChapterId")]
+        public int FK_MangaChapter_Id { get; set; }
     }
 }

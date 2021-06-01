@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace API.Entites
@@ -9,13 +10,18 @@ namespace API.Entites
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaId { get; set; }
     [JsonPropertyName("result")]
     public string Result { get; set; }
     [JsonPropertyName("data")]
     public MangaData Data { get; set; }
     [JsonPropertyName("relationships")]
     public IList<Relationship> Relationships { get; set; }
+    [JsonIgnore]
+    public MangaChapters MangaChapters { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaCollectionId")]
+    public int FK_MangaCollection_Id { get; set; }
   }
 
   public class Relationship
@@ -27,35 +33,41 @@ namespace API.Entites
     public string RelationshipId { get; set; }
     [JsonPropertyName("type")]
     public string RelationshipType { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaId")]
+    public int FK_Manga_Id { get; set; }
   }
 
   public class MangaData
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaDataId { get; set; }
     [JsonPropertyName("id")]
     public string MangaId { get; set; }
     [JsonPropertyName("attributes")]
     public MangaAttributes MangaAttributes { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaId")]
+    public int FK_Manga_Id { get; set; }
   }
 
   public class MangaAttributes
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaAttributesId { get; set; }
 
     [JsonPropertyName("title")]
-    public Title Title { get; set; }
+    public MangaTitle Title { get; set; }
     [JsonPropertyName("altTitles")]
-    public List<AltTitle> AltTitles { get; set; } = new List<AltTitle>();
+    public List<MangaAltTitle> AltTitles { get; set; } = new List<MangaAltTitle>();
     [JsonPropertyName("description")]
-    public Description Description { get; set; }
+    public MangaDescription MangaDescription { get; set; }
     [JsonPropertyName("tags")]
-    public List<Tag> Tags { get; set; } = new List<Tag>();
+    public List<MangaTag> Tags { get; set; } = new List<MangaTag>();
     [JsonPropertyName("links")]
-    public Link Links { get; set; }
+    public MangaLink MangaLinks { get; set; }
     [JsonPropertyName("isLocked")]
     public bool IsLocked { get; set; } = false;
     [JsonPropertyName("originalLanguage")]
@@ -78,39 +90,52 @@ namespace API.Entites
     public DateTime CreatedAt { get; set; }
     [JsonPropertyName("updatedAt")]
     public DateTime UpdatedAt { get; set; }
+
+    [JsonIgnore]
+    [ForeignKey("MangaDataId")]
+    public int FK_MangaData_Id { get; set; }
   }
 
-  public class Description
+  public class MangaDescription
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaDescriptionId { get; set; }
     [JsonPropertyName("en")]
-    public string Value { get; set; }
+    public string Description { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaAttributesId")]
+    public int FK_MangaAttributes_Id { get; set; }
   }
 
-  public class Title
+  public class MangaTitle
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaTitleId { get; set; }
     [JsonPropertyName("en")]
-    public string Name { get; set; }
+    public string Title { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaAttributesId")]
+    public int FK_MangaAttributes_Id { get; set; }
   }
 
-  public class AltTitle
+  public class MangaAltTitle
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaAltTitleId { get; set; }
     [JsonPropertyName("en")]
-    public string Name { get; set; }
+    public string AltTitle { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaAttributesId")]
+    public int FK_MangaAttributes_Id { get; set; }
   }
-  public class Link
+  public class MangaLink
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaLinkId { get; set; }
 
     [JsonPropertyName("al")]
     public string AniList { get; set; }
@@ -134,26 +159,32 @@ namespace API.Entites
     public string MAL { get; set; }
     [JsonPropertyName("engtl")]
     public string EngTL { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaAttributesId")]
+    public int FK_MangaAttributes_Id { get; set; }
   }
 
-  public class Tag
+  public class MangaTag
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int MangaTagId { get; set; }
     [JsonPropertyName("id")]
     public string TagId { get; set; }
     [JsonPropertyName("type")]
     public string Type { get; set; }
     [JsonPropertyName("attributes")]
-    public TagAttributes Attributes { get; set; }
+    public TagAttributes TagAttributes { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaAttributesId")]
+    public int FK_MangaAttributes_Id { get; set; }
   }
 
   public class TagAttributes
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int TagAttributesId { get; set; }
 
     [JsonPropertyName("name")]
     public TagName Name { get; set; }
@@ -161,14 +192,20 @@ namespace API.Entites
     public string Group { get; set; }
     [JsonPropertyName("version")]
     public int Version { get; set; }
+    [JsonIgnore]
+    [ForeignKey("MangaTagId")]
+    public int FK_MangaTag_Id { get; set; }
   }
 
   public class TagName
   {
     [Key]
     [JsonIgnore]
-    public int Id { get; set; }
+    public int TagNameId { get; set; }
     [JsonPropertyName("en")]
     public string Name { get; set; }
+    [JsonIgnore]
+    [ForeignKey("TagAttributesId")]
+    public int FK_TagAttributes_Id { get; set; }
   }
 }
